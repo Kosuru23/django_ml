@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Testing</h1>
+
+    <form action="{% url 'save_input' %}" method="post">
+        {% csrf_token %}
+        <!-- <input type="hidden" value=140 name="id" id='id'> -->
+        <label for="Income">Income:</label>
+        <input type="number" name="income" id="income"> <br><br>
+        <label for="Children">Number of Children:</label>
+        <input type="number" name="children" id="children"> <br><br>
+        <label for="Home Owner">Home Owner:</label>
+        <select name="home_owner" id="home_owner">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select> <br><br>
+        <label for="Cars">Number of Cars:</label>
+        <input type="number" name="cars" id="cars"> <br><br>
+        <label for="Age">Age:</label>
+        <input type="number" name="age" id="age"> <br><br>
+        <label for="Occupation">Your Occupation:</label>
+        <select name="occupation" id="occupation">
+            <option value="Clerical">Clerical</option>
+            <option value="Management">Management</option>
+            <option value="Manual">Manual</option>
+            <option value="Professional">Professional</option>
+            <option value="Skilled Manual">Skilled Manual</option>
+        </select> <br><br>
+        <label for="Education">Your Education:</label>
+        <select name="education" id="education">
+            <option value="Bachelors">Bachelors</option>
+            <option value="Graduate Degree">Graduate Degree</option>
+            <option value="High School">High School</option>
+            <option value="Partial College">Partial College</option>
+            <option value="Partial High School">Partial High School</option>
+        </select> <br><br>
+        <label for="Marital Status">Your Marital Status:</label>
+        <select name="marital_status" id="marital_status">
+            <option value="1">Married</option>
+            <option value="0">Not Married</option>
+        </select> <br><br>
+        <label for="Gender">Gender</label>
+        <select name="gender" id="gender">
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select> <br><br>
+        <label for="Commute Lower">Lowest Miles Commute:</label>
+        <input type="number" name="commute_lower" id="commute_lower"> <br><br>
+        <label for="Commute Hight">Highest Miles Commute:</label>
+        <input type="number" name="commute_upper" id="commute_upper"> <br><br>
+        <label for="Region">Your Region</label>
+        <select name="region" id="region">
+            <option value="Europe">Europe</option>
+            <option value="North America">North America</option>
+            <option value="Pacific">Pacific</option>
+        </select> <br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+{% if prediction is not None %}
+    <h2>Prediction: {{ prediction }}</h2>
+{% endif %}
+</body>
+</html>
