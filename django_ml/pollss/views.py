@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import PredictionInput
+from .models import titanic
 import joblib
+import pickle
 import os
 
-model_path = os.path.join(os.path.dirname(__file__), 'models.pkl')
-model = joblib.load(model_path)
+# model_path = os.path.join(os.path.dirname(__file__), 'models.pkl')
+# model = joblib.load(model_path)
 
 def index_views(request):
     return render(request, 'index.html')
@@ -83,34 +84,39 @@ def index_views(request):
 
 #     return base_features + occupation_map[data.occupation] + education_map[data.education] + region_map[data.region]
 
+def PredictionInput(pclass, sex, age, sibsq, parch, fare, C, Q, S):
+    model = pickle.load(open('Model/model_cart.pkl', 'rb'))
+    scaled = pickle.load(open('Model/model_svc.pkl', 'rb'))
+    scaled_input = scaled.transform([
+        [pclass, sex, age, sibsq, parch, fare, C, Q, S]
+    ])
+
+    prediction = model.predict(scaled_input)
+    return prediction
+
+
+
 def save_index(request):
-    income = float(request.POST['income'])
-    children = int(request.POST['children'])
-    home_owner = bool(int(request.POST['home_owner']))
-    cars = int(request.POST['cars'])
+    pclass = int(request.POST['pclass'])
+    sex = int(request.POST['sex'])
     age = int(request.POST['age'])
-    occupation = request.POST['occupation']
-    education = request.POST['education']
-    marital_status = int(request.POST['marital_status'])
-    gender = int(request.POST['gender'])
-    commute_lower = int(request.POST['commute_lower'])
-    commute_upper = int(request.POST['commute_upper'])
-    region = request.POST['region']
+    sibsq = int(request.POST['sibsq'])
+    parch = int(request.POST['parch'])
+    fare = int(request.POST['fare'])
+    embC = int(request.POST['embC'])
+    embQ = int(request.POST['embQ'])
+    embS = int(request.POST['embS'])
 
-    savePredict = PredictionInput(
-        income = income, 
-        children = children,
-        home_owner = home_owner,
-        cars = cars,
-        age = age,
-        occupation = occupation,
-        education = education,
-        marital_status = marital_status,
-        gender = gender,
-        commute_lower = commute_lower,
-        commute_upper = commute_upper,
-        region = region
+    predict = PredictionInput(
+        pclass, 
+        sex,
+        age,
+        sibsq, 
+        parch,
+        fare, 
+        embC,
+        embQ, embS
     )
-    savePredict.save()
+    predict.save()
 
-    return redirect('/polls/')
+    return render(request, 'index.html', {'prediction': prediction})
