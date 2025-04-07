@@ -85,14 +85,13 @@ def index_views(request):
 #     return base_features + occupation_map[data.occupation] + education_map[data.education] + region_map[data.region]
 
 def PredictionInput(pclass, sex, age, sibsq, parch, fare, C, Q, S):
-    model = pickle.load(open('Model/model_cart.pkl', 'rb'))
-    scaled = pickle.load(open('Model/model_svc.pkl', 'rb'))
-    scaled_input = scaled.transform([
-        [pclass, sex, age, sibsq, parch, fare, C, Q, S]
-    ])
-
+    model = pickle.load(open('Model/ml_model.testML', 'rb'))
+    scaled = pickle.load(open('Model/scaler.testML', 'rb'))
+    
+    scaled_input = scaled.transform([[pclass, sex, age, sibsq, parch, fare, C, Q, S]])
     prediction = model.predict(scaled_input)
-    return prediction
+    
+    return prediction[0] 
 
 
 
@@ -107,16 +106,8 @@ def save_index(request):
     embQ = int(request.POST['embQ'])
     embS = int(request.POST['embS'])
 
-    predict = PredictionInput(
-        pclass, 
-        sex,
-        age,
-        sibsq, 
-        parch,
-        fare, 
-        embC,
-        embQ, embS
+    prediction = PredictionInput(
+            pclass, sex, age, sibsq, parch, fare, embC, embQ, embS
     )
-    predict.save()
 
     return render(request, 'index.html', {'prediction': prediction})

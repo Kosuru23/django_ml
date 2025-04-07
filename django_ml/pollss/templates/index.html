@@ -29,17 +29,15 @@
         <input type="number" name="embQ" id="embQ"> <br><br>
         <label for="embS">embS:</label>
         <input type="number" name="embS" id="embS"> <br><br>
-        <!-- <label for="">Your Region</label>
-        <select name="region" id="region">
-            <option value="Europe">Europe</option>
-            <option value="North America">North America</option>
-            <option value="Pacific">Pacific</option>
-        </select> <br><br> -->
         <input type="submit" value="Submit">
     </form>
 
 {% if prediction is not None %}
-    <h2>Prediction: {{ prediction }}</h2>
+    {% if prediction == 1 %}
+        <h2>Prediction: Yes</h2>
+    {% else %}
+        <h2>Prediction: No</h2>
+    {% endif %}
 {% endif %}
 </body>
 </html>
