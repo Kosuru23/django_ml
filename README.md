@@ -16,4 +16,5 @@ Commute Lower - If the person commutes what mile is it in the lowest
 Commute Upper - If the person commutes what miles is it in the highest
 Region - What region the person leaves (Only has 3 region option as per the trained model I used)
 
-The UI interacts with the input the user gave by predicting if the person bought a bike or not.
+The UI interacts with the input the user gave by predicting if the person bought a bike or not 
+while storing the said data in the databaseml. 
